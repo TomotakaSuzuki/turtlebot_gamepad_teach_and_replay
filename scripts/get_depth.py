@@ -1,0 +1,49 @@
+#!/usr/bin/env python
+import time
+import rospy
+import cv2
+import numpy as np
+from std_msgs.msg import String
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge, CvBridgeError
+from turtlebot_gamepad_training_replay.msg import DepthSensorValues
+
+class Depth_estimater(object):
+    def __init__(self):
+        self._bridge = CvBridge()
+        self._dep_pub = rospy.Publisher('/DepthSensor', DepthSensorValues, queue_size=1)
+        self._depimg_sub = rospy.Subscriber('/camera/depth/image_raw', Image, self.depth_image_callback, queue_size=1)
+
+    def depth_image_callback(self, depth_data):
+        try:
+            depth_image = self._bridge.imgmsg_to_cv2(depth_data, "passthrough")
+        except CvBridgeError as e:
+            print(e)
+
+        (rows, cols) = depth_image.shape
+
+        print(depth_image[120][80], depth_image[120][240], depth_image[120][400], depth_image[120][560])
+
+        
+        d = DepthSensorValues()
+        d.left_side = depth_image[120][80]
+        d.right_side = depth_image[120][560]
+        d.left_forward = depth_image[120][240]
+        d.right_forward = depth_image[120][400]
+        d.sum_forward = d.left_forward + d.right_forward
+        d.sum_all = d.sum_forward + d.left_side + d.right_side
+
+        try:
+            self._dep_pub.publish(d)
+        except CvBridgeError as e:
+            print(e)
+
+if __name__ == '__main__':
+    rospy.init_node('depth_scan', anonymous=True)
+    depth_scan = Depth_estimater()
+    try:
+        rospy.spin()
+    except KeyboardInterrapt:
+        print("Shutting down")
+        cv2.destroyAllWindow()
+
