@@ -4,6 +4,6 @@
 	</node>
 	<node pkg="turtlebot_gamepad_training_replay" name="turtlebot_training" type="turtlebot_training.py" required="true" output="screen" />
 	<node pkg="turtlebot_gamepad_training_replay" name="turtlebot_logger" type="turtlebot_logger.py" required="true" output="screen" />
-    <node pkg="turtlebot_gamepad_training_replay" name="get_depth" type="get_depth.py" required="true" output="screen" />
+        <node pkg="turtlebot_gamepad_training_replay" name="get_depth" type="get_depth.py" required="true" output="screen" />
 	<node pkg="turtlebot_gamepad_training_replay" name="replay" type="replay" required="true" output="screen" /> 
 </launch>
