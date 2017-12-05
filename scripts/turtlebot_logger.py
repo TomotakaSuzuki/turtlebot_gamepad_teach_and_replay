@@ -5,8 +5,8 @@ import math, sys, random, datetime
 from sensor_msgs.msg import Joy
 from std_srvs.srv import Trigger, TriggerResponse
 from geometry_msgs.msg import Twist
-from turtlebot_gamepad_teach_and_replay.msg import Event
-from turtlebot_gamepad_teach_and_replay.msg import Depth
+from turtlebot_gamepad_training_replay.msg import Event
+from turtlebot_gamepad_training_replay.msg import DepthSensorValues
 
 class Logger():
     def __init__(self):

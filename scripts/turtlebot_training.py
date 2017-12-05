@@ -14,7 +14,7 @@ class JoyTwist(object):
     def joy_callback(self, joy_msg):
         if joy_msg.buttons[7] == 1:
             self.on = True
-        else not self.on:
+        elif self.on == False:
             return
 
         if joy_msg.buttons[0] == 1:
