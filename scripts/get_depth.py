@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import time
 import rospy
 import cv2
 import numpy as np
@@ -26,12 +25,13 @@ class Depth_estimater(object):
 
         
         d = DepthSensorValues()
-        d.left_side = depth_image[120][80]
+
         d.right_side = depth_image[120][560]
-        d.left_forward = depth_image[120][240]
-        d.right_forward = depth_image[120][400]
-        d.sum_forward = d.left_forward + d.right_forward
-        d.sum_all = d.sum_forward + d.left_side + d.right_side
+        d.right_center = depth_image[120][400]
+        d.left_center = depth_image[120][240]
+        d.left_side = depth_image[120][80]
+        d.sum_center = d.left_center + d.right_center
+        d.sum_all = d.sum_center + d.left_side + d.right_side
 
         try:
             self._dep_pub.publish(d)

@@ -2,6 +2,7 @@
 
 import rospy, rosbag, rosparam
 import math, sys, random, datetime
+from sensor_msgs.msg import Joy
 from std_srvs.srv import Trigger, TriggerResponse
 from geometry_msgs.msg import Twist
 from turtlebot_gamepad_teach_and_replay.msg import Event
@@ -14,12 +15,16 @@ class Logger():
         
         self._decision = rospy.Publisher('/event', Event, queue_size=100)
 
+        rospy.Subscriber('/joy', Joy, self.button_callback, queue_size=1)
         rospy.Subscriber('/DepthSensor', DepthSensorValues, self.sensor_callback)
         rospy.Subscriber('/cmd_vel_mux/input/teleop', Twist, self.cmdvel_callback)
 
         self.on = False 
         self.bag_open = False
 
+    def button_callback(self, msg):
+        if msg.buttons[6] == 1:
+            self.on = True
 
     def sensor_callback(self, messages):
         self.sensor_values = messages
@@ -44,10 +49,10 @@ class Logger():
         a = self.cmd_vel
         e = Event()
 
-        e.left_side = s.left_side
         e.right_side = s.right_side
-        e.left_center = s.left_center
         e.right_center = s.right_center
+        e.left_center = s.left_center
+        e.left_side = s.left_side
         e.linear_x = a.linear.x
         e.angular_z = a.angular.z
 

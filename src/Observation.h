@@ -10,18 +10,18 @@ using namespace std;
 class Observation{
 public:
 	Observation();
-	Observation(int left_f,int left_s, int right_s, int right_f);
+	Observation(int left_s,int left_c, int right_c, int right_s);
 
-	void setValues(int left_f,int left_s, int right_s, int right_f);
+	void setValues(int left_s,int left_c, int right_c, int right_s);
 
-	int lf;
 	int ls;
+	int lc;
+	int rc;
 	int rs;
-	int rf;
-	double log_lf;
 	double log_ls;
+	double log_lc;
+	double log_rc;
 	double log_rs;
-	double log_rf;
 };
 
 #endif

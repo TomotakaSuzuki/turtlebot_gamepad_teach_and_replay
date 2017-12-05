@@ -7,20 +7,20 @@ Observation::Observation()
 {
 }
 
-Observation::Observation(int left_f,int left_s, int right_s, int right_f)
+Observation::Observation(int left_s,int left_c, int right_c, int right_s)
 {
-	setValues(left_f,left_s,right_s,right_f);
+	setValues(left_s,left_c,right_c,right_s);
 }
 
-void Observation::setValues(int left_f,int left_s, int right_s, int right_f)
+void Observation::setValues(int left_s,int left_c, int right_c, int right_s)
 {
-	lf = left_f > 0 ? left_f : 1;
 	ls = left_s > 0 ? left_s : 1;
+	lc = left_c > 0 ? left_c : 1;
+	rc = right_c > 0 ? right_c : 1;
 	rs = right_s > 0 ? right_s : 1;
-	rf = right_f > 0 ? right_f : 1;
 
-	log_lf = log10((double)lf);
 	log_ls = log10((double)ls);
+	log_lc = log10((double)lc);
+	log_rc = log10((double)rc);
 	log_rs = log10((double)rs);
-	log_rf = log10((double)rf);
 }

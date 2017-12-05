@@ -143,10 +143,10 @@ Action ParticleFilter::sensorUpdate(Observation *obs, Action *act, Episodes *ep,
 
 double ParticleFilter::likelihood(Observation *past, Observation *last)
 {
-	double diff[4] = {	past->log_lf - last->log_lf,
-				past->log_ls - last->log_ls,
-				past->log_rs - last->log_rs,
-				past->log_rf - last->log_rf };
+	double diff[4] = {	past->log_ls - last->log_ls,
+				past->log_lc - last->log_lc,
+				past->log_rc - last->log_rc,
+				past->log_rs - last->log_rs };
 	/*
 	double diff[4] = {	past->lf - last->lf,
 				past->ls - last->ls,
@@ -176,10 +176,10 @@ double ParticleFilter::likelihood(Observation *past, Observation *last)
 
 double ParticleFilter::likelihood(Observation *past, Observation *last, Action *past_a, Action *last_a)
 {
-	double diff[4] = {	past->log_lf - last->log_lf,
-				past->log_ls - last->log_ls,
-				past->log_rs - last->log_rs,
-				past->log_rf - last->log_rf };
+	double diff[4] = {	past->log_ls - last->log_ls,
+				past->log_lc - last->log_lc,
+				past->log_rc - last->log_rc,
+				past->log_rs - last->log_rs };
 
 	double ans = 1.0;
 	for(double &d : diff){

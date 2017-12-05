@@ -10,12 +10,12 @@
 #include <ros/package.h> 
 #include "std_srvs/Trigger.h"
 #include "geometry_msgs/Twist.h"
-#include "raspimouse_ros_2/LightSensorValues.h"
-#include "raspimouse_ros_2/TimedMotion.h"
-#include "raspimouse_ros_2/ButtonValues.h"
-#include "raspimouse_gamepad_training_replay/Event.h"
+/* #include "raspimouse_ros_2/TimedMotion.h" */
+#include "sensor_msgs/Joy.h"
+#include "turtlebot_gamepad_training_replay/DepthSensorValues.h"
+#include "turtlebot_gamepad_training_replay/Event.h"
 #include "ParticleFilter.h"
-#include "raspimouse_gamepad_training_replay/PFoEOutput.h"
+#include "turtlebot_gamepad_training_replay/PFoEOutput.h"
 using namespace ros;
 
 Episodes ep;
@@ -24,22 +24,25 @@ ParticleFilter pf(1000,&ep);
 Observation sensor_values;
 
 NodeHandle *np;
-int sum_forward = 0;
+int sum_center = 0;
 
 bool on = false;
 bool bag_read = false;
 
-void buttonCallback(const raspimouse_ros_2::ButtonValues::ConstPtr& msg)
+void buttonCallback(const sensor_msgs::Joy::ConstPtr& msg)
 {
-	on = msg->mid_toggle;
+    if (msg->buttons[6] == 1) {
+	    on = true;
+    }
 }
 
-void sensorCallback(const raspimouse_ros_2::LightSensorValues::ConstPtr& msg)
+void sensorCallback(const turtlebot_gamepad_training_replay::DepthSensorValues::ConstPtr& msg)
 {
-	sensor_values.setValues(msg->left_forward,msg->left_side,msg->right_side,msg->right_forward);
-	sum_forward = msg->sum_forward;
+	sensor_values.setValues(msg->left_side,msg->left_center,msg->right_center,msg->right_side);
+	sum_center = msg->sum_center;
 }
 
+/*
 void on_shutdown(int sig)
 {
 	ros::ServiceClient motor_off = np->serviceClient<std_srvs::Trigger>("motor_off");
@@ -48,6 +51,7 @@ void on_shutdown(int sig)
 
 	shutdown();
 }
+*/
 
 void readEpisodes(string file)
 {
@@ -63,9 +67,9 @@ void readEpisodes(string file)
 	double start = view.getBeginTime().toSec() + 5.0; //discard first 5 sec
 	double end = view.getEndTime().toSec() - 5.0; //discard last 5 sec
 	for(auto i : view){
-	        auto s = i.instantiate<raspimouse_gamepad_training_replay::Event>();
+	        auto s = i.instantiate<turtlebot_gamepad_training_replay::Event>();
 
-		Observation obs(s->left_forward,s->left_side,s->right_side,s->right_forward);
+		Observation obs(s->left_side,s->left_center,s->right_center,s->right_side);
 		Action a = {s->linear_x,s->angular_z};
 		Event e(obs,a,0.0);
 		e.time = i.getTime();
@@ -86,18 +90,14 @@ int main(int argc, char **argv)
 	NodeHandle n;
 	np = &n;
 
-	Subscriber sub = n.subscribe("lightsensors", 1, sensorCallback);
-	Subscriber sub_b = n.subscribe("buttons", 1, buttonCallback);
+	Subscriber sub = n.subscribe("DepthSensor", 1, sensorCallback);
+	Subscriber sub_b = n.subscribe("joy", 1, buttonCallback);
 	Publisher cmdvel = n.advertise<geometry_msgs::Twist>("cmd_vel", 1);
-	Publisher pfoe_out = n.advertise<raspimouse_gamepad_training_replay::PFoEOutput>("pfoe_out", 100);
-	ros::ServiceClient motor_on = n.serviceClient<std_srvs::Trigger>("motor_on");
-	ros::ServiceClient tm = n.serviceClient<raspimouse_ros_2::TimedMotion>("timed_motion");
+	Publisher pfoe_out = n.advertise<turtlebot_gamepad_training_replay::PFoEOutput>("pfoe_out", 100);
 
-	signal(SIGINT, on_shutdown);
+	/* signal(SIGINT, on_shutdown); */
 
-	motor_on.waitForExistence();
-	std_srvs::Trigger t;
-	motor_on.call(t);
+	/* motor_on.waitForExistence(); */
 
 	geometry_msgs::Twist msg;
 	pf.init();
@@ -120,7 +120,7 @@ int main(int argc, char **argv)
 			loop_rate.sleep();
 			continue;
 		}
-		raspimouse_gamepad_training_replay::PFoEOutput out;
+		turtlebot_gamepad_training_replay::PFoEOutput out;
 
 		act = pf.sensorUpdate(&sensor_values, &act, &ep, &out);
 		msg.linear.x = act.linear_x;
@@ -128,9 +128,9 @@ int main(int argc, char **argv)
 		msg.angular.z = act.angular_z;
 		out.angular_z = act.angular_z;
 
-		out.left_forward = sensor_values.lf;
 		out.left_side = sensor_values.ls;
-		out.right_forward = sensor_values.rf;
+		out.left_center = sensor_values.lc;
+		out.right_center = sensor_values.rc;
 		out.right_side = sensor_values.rs;
 
 		cmdvel.publish(msg);
