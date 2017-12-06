@@ -3,7 +3,7 @@
 import rospy
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import Joy
-from turtlebot_gamepad_training_replay import ButtonValues
+from turtlebot_gamepad_training_replay.msg import ButtonValues
 
 class JoyTwist(object):
     def __init__(self):
