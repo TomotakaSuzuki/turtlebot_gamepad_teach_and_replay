@@ -7,7 +7,7 @@ from turtlebot_gamepad_training_replay.msg import ButtonValues
 
 class JoyTwist(object):
     def __init__(self):
-        self._btm_sub = rospy.Subscriber('/buttons', ButtonsValues, button_callback, queue_size=1)
+        self._btm_sub = rospy.Subscriber('/buttons', ButtonValues, self.button_callback, queue_size=1)
         self._joy_sub = rospy.Subscriber('/joy', Joy, self.joy_callback, queue_size=1)
         self._vel_pub = rospy.Publisher('/cmd_vel_mux/imput/teleop', Twist, queue_size=1) #cmd_vel_mux/input/navi
 

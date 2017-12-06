@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import rospy
 import cv2
-import numpy as np
+#import numpy as np
 from std_msgs.msg import String
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
@@ -39,7 +39,7 @@ class Depth_estimater(object):
             print(e)
 
 if __name__ == '__main__':
-    rospy.init_node('depth_scan', anonymous=True)
+    rospy.init_node('get_depth', anonymous=True)
     depth_scan = Depth_estimater()
     try:
         rospy.spin()

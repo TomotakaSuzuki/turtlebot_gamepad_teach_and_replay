@@ -24,7 +24,7 @@ class Logger():
         self.on = btm_msg.replay
 
     def sensor_callback(self, messages):
-        self.sensor_values = messages
+        self.depth_values = messages
     
     def cmdvel_callback(self, messages):
         self.cmd_vel = messages 
@@ -42,7 +42,7 @@ class Logger():
                 self.bag = rosbag.Bag(filename, 'w')
                 self.bag_open = True
             
-        s = self.sensor_values
+        s = self.depth_values
         a = self.cmd_vel
         e = Event()
 
@@ -65,5 +65,5 @@ class Logger():
             rate.sleep()
 
 if __name__ == '__main__':
-    rospy.init_node('logger')
+    rospy.init_node('turtlebot_logger')
     Logger().run()

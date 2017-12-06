@@ -24,7 +24,7 @@ class Buttons(object):
         
 
 if __name__ == '__main__':
-    rospy.init_node('button_control', anonymous=True)
+    rospy.init_node('control_buttons', anonymous=True)
     button_control = Buttons()
     try:
         rospy.spin()
