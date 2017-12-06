@@ -34,7 +34,7 @@ class Logger():
             if self.bag_open:
                 self.bag.close()
                 self.bag_open = False
-                return
+            return
         else:
             if not self.bag_open:
                 filename = datetime.datetime.today().strftime("%Y%m%d_%H%M%S") + '.bag'
@@ -53,7 +53,7 @@ class Logger():
         e.linear_x = a.linear.x
         e.angular_z = a.angular.z
 
-        self._dicision.publish(e)
+        self._decision.publish(e)
         self.bag.write('/evnet', e)
 
     def run(self):
