@@ -3,18 +3,21 @@
 import rospy
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import Joy
+from turtlebot_gamepad_training_replay import ButtonValues
 
 class JoyTwist(object):
     def __init__(self):
+        self._btm_sub = rospy.Subscriber('/buttons', ButtonsValues, button_callback, queue_size=1)
         self._joy_sub = rospy.Subscriber('/joy', Joy, self.joy_callback, queue_size=1)
-        self._vel_pub = rospy.Publisher('/cmd_vel_mux/imput/navi', Twist, queue_size=1) #cmd_vel_mux/input/teleop
+        self._vel_pub = rospy.Publisher('/cmd_vel_mux/imput/teleop', Twist, queue_size=1) #cmd_vel_mux/input/navi
 
         self.on = False
-        
+       
+    def button_callback(self, btm_msg):
+        self.on = btm_msg.training 
+
     def joy_callback(self, joy_msg):
-        if joy_msg.buttons[7] == 1:
-            self.on = True
-        elif self.on == False:
+        if not self.on:
             return
 
         if joy_msg.buttons[0] == 1:

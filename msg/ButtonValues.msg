@@ -1,0 +1,2 @@
+bool training
+bool replay

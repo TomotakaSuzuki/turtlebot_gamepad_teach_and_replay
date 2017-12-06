@@ -11,8 +11,8 @@
 #include "std_srvs/Trigger.h"
 #include "geometry_msgs/Twist.h"
 /* #include "raspimouse_ros_2/TimedMotion.h" */
-#include "sensor_msgs/Joy.h"
 #include "turtlebot_gamepad_training_replay/DepthSensorValues.h"
+#include "turtlebot_gamepad_training_replay/ButtonValues.h"
 #include "turtlebot_gamepad_training_replay/Event.h"
 #include "ParticleFilter.h"
 #include "turtlebot_gamepad_training_replay/PFoEOutput.h"
@@ -29,11 +29,9 @@ int sum_center = 0;
 bool on = false;
 bool bag_read = false;
 
-void buttonCallback(const sensor_msgs::Joy::ConstPtr& msg)
+void buttonCallback(const turtlebot_gamepad_training_replay::ButtonValues::ConstPtr& msg)
 {
-    if (msg->buttons[6] == 1) {
-	    on = true;
-    }
+    on = msg->replay;
 }
 
 void sensorCallback(const turtlebot_gamepad_training_replay::DepthSensorValues::ConstPtr& msg)
