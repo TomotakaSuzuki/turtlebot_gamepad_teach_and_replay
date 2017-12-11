@@ -21,7 +21,6 @@ class Buttons(object):
             b.replay = False
 
         self._btm_pub.publish(b)
-        
 
 if __name__ == '__main__':
     rospy.init_node('control_buttons', anonymous=True)
