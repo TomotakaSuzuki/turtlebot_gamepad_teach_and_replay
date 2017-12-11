@@ -10,7 +10,7 @@ class Depth_estimater(object):
     def __init__(self):
         self._bridge = CvBridge()
         self._dep_pub = rospy.Publisher('/DepthSensor', DepthSensorValues, queue_size=1)
-        self._depimg_sub = rospy.Subscriber('/camera/depth/image_raw', Image, self.depth_image_callback, queue_size=1)
+        self._depimg_sub = rospy.Subscriber('/camera/depth/image', Image, self.depth_image_callback, queue_size=1)
 
     def depth_image_callback(self, depth_data):
         try:
@@ -20,7 +20,7 @@ class Depth_estimater(object):
 
         (rows, cols) = depth_image.shape
 
-        print(depth_image[120][80], depth_image[120][240], depth_image[120][400], depth_image[120][560])
+        #print(depth_image[120][80], depth_image[120][240], depth_image[120][400], depth_image[120][560])
 
         
         d = DepthSensorValues()
