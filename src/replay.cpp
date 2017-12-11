@@ -21,7 +21,7 @@ using namespace ros;
 Episodes ep;
 ParticleFilter pf(1000,&ep);
 
-Observation sensor_values;
+Observation depth_values;
 
 NodeHandle *np;
 int sum_center = 0;
@@ -36,7 +36,7 @@ void buttonCallback(const turtlebot_gamepad_training_replay::ButtonValues::Const
 
 void sensorCallback(const turtlebot_gamepad_training_replay::DepthSensorValues::ConstPtr& msg)
 {
-	sensor_values.setValues(msg->left_side,msg->left_center,msg->right_center,msg->right_side);
+	depth_values.setValues(msg->left_side,msg->left_center,msg->right_center,msg->right_side);
 	sum_center = msg->sum_center;
 }
 
@@ -89,7 +89,7 @@ int main(int argc, char **argv)
 	np = &n;
 
 	Subscriber sub = n.subscribe("DepthSensor", 1, sensorCallback);
-	Subscriber sub_b = n.subscribe("joy", 1, buttonCallback);
+	Subscriber sub_b = n.subscribe("ButtonValues", 1, buttonCallback);
 	Publisher cmdvel = n.advertise<geometry_msgs::Twist>("cmd_vel", 1);
 	Publisher pfoe_out = n.advertise<turtlebot_gamepad_training_replay::PFoEOutput>("pfoe_out", 100);
 
@@ -120,16 +120,16 @@ int main(int argc, char **argv)
 		}
 		turtlebot_gamepad_training_replay::PFoEOutput out;
 
-		act = pf.sensorUpdate(&sensor_values, &act, &ep, &out);
+		act = pf.sensorUpdate(&depth_values, &act, &ep, &out);
 		msg.linear.x = act.linear_x;
 		out.linear_x = act.linear_x;
 		msg.angular.z = act.angular_z;
 		out.angular_z = act.angular_z;
 
-		out.left_side = sensor_values.ls;
-		out.left_center = sensor_values.lc;
-		out.right_center = sensor_values.rc;
-		out.right_side = sensor_values.rs;
+		out.left_side = depth_values.ls;
+		out.left_center = depth_values.lc;
+		out.right_center = depth_values.rc;
+		out.right_side = depth_values.rs;
 
 		cmdvel.publish(msg);
 		pfoe_out.publish(out);
