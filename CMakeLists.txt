@@ -128,13 +128,14 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/raspimouse_gamepad_training_replay.cpp
+#   src/${PROJECT_NAME}/turtlebot_gamepad_training_replay.cpp
 # )
 add_library(Observation src/Observation.cpp)
 add_library(Event src/Event.cpp)
 add_library(ParticleFilter src/ParticleFilter.cpp)
 add_library(Episodes src/Episodes.cpp)
 add_library(Particle src/Particle.cpp)
+add_library(buttons_gamepad src/buttons_gamepad.cpp)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -169,6 +170,7 @@ target_link_libraries(replay Event ${catkin_LIBRARIES})
 target_link_libraries(replay Episodes ${catkin_LIBRARIES})
 target_link_libraries(replay ParticleFilter ${catkin_LIBRARIES})
 target_link_libraries(replay Particle ${catkin_LIBRARIES})
+target_link_libraries(replay buttons_gamepad ${catkin_LIBRARIES})
 
 #############
 ## Install ##
