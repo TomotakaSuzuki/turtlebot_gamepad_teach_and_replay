@@ -7,25 +7,29 @@ class Buttons(object):
     def __init__(self):
         self._joy_sub = rospy.Subscriber('/joy', Joy, self.joy_callback, queue_size=1)
         self._btm_pub = rospy.Publisher('/buttons', ButtonValues, queue_size=1)
+        self.count = 2 
+        self.training = False
+        self.replay = False
+
+    def counter(self, c):
+        if c <= 0: return 1
+        if c >= 11: return 10
+        return c
 
     def joy_callback(self, joy_msg):
         b = ButtonValues()
-        if joy_msg.buttons[5] == 1 and joy_msg.buttons[4] == 0:
-            b.training = True
-        else:
-            b.training = False
+        if joy_msg.buttons[5] == 1: self.count += 1 
+        if joy_msg.buttons[4] == 1: self.count -= 1
+        self.count = self.counter(self.count)
 
-        if joy_msg.buttons[4] == 1 and joy_msg.buttons[5] == 0:
-            b.replay = True
-        else:
-            b.replay = False
+        if self.count == 10: b.training = True
+        else: b.training = False
+        if self.count == 1: b.replay = True
+        else: b.replay = False
 
         self._btm_pub.publish(b)
 
 if __name__ == '__main__':
     rospy.init_node('control_buttons', anonymous=True)
     button_control = Buttons()
-    try:
-        rospy.spin()
-    except KeyboardInterrapt:
-        print("Shutting down")
+    rospy.spin()
