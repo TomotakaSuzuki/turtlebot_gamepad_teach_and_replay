@@ -10,7 +10,6 @@
 #include <ros/package.h> 
 #include "std_srvs/Trigger.h"
 #include "geometry_msgs/Twist.h"
-/* #include "raspimouse_ros_2/TimedMotion.h" */
 #include "turtlebot_gamepad_training_replay/DepthSensorValues.h"
 #include "turtlebot_gamepad_training_replay/ButtonValues.h"
 #include "turtlebot_gamepad_training_replay/Event.h"
@@ -89,7 +88,7 @@ int main(int argc, char **argv)
 	np = &n;
 
 	Subscriber sub = n.subscribe("DepthSensor", 1, sensorCallback);
-	Subscriber sub_b = n.subscribe("ButtonValues", 1, buttonCallback);
+	Subscriber sub_b = n.subscribe("buttons", 1, buttonCallback);
 	Publisher cmdvel = n.advertise<geometry_msgs::Twist>("cmd_vel", 1);
 	Publisher pfoe_out = n.advertise<turtlebot_gamepad_training_replay::PFoEOutput>("pfoe_out", 100);
 
@@ -119,6 +118,8 @@ int main(int argc, char **argv)
 			continue;
 		}
 		turtlebot_gamepad_training_replay::PFoEOutput out;
+        
+        cout << boolalpha << on << endl;
 
 		act = pf.sensorUpdate(&depth_values, &act, &ep, &out);
 		msg.linear.x = act.linear_x;
