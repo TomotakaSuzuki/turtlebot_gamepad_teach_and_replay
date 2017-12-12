@@ -21,7 +21,7 @@ class Logger():
         self.bag_open = False
 
     def button_callback(self, btm_msg):
-        self.on = btm_msg.replay
+        self.on = btm_msg.training
 
     def sensor_callback(self, messages):
         self.depth_values = messages
