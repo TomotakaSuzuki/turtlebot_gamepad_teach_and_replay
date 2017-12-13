@@ -7,12 +7,12 @@ Observation::Observation()
 {
 }
 
-Observation::Observation(int left_s,int left_c, int right_c, int right_s)
+Observation::Observation(float left_s,float left_c, float right_c, float right_s)
 {
 	setValues(left_s,left_c,right_c,right_s);
 }
 
-void Observation::setValues(int left_s,int left_c, int right_c, int right_s)
+void Observation::setValues(float left_s,float left_c, float right_c, float right_s)
 {
 	ls = left_s > 0 ? left_s : 1;
 	lc = left_c > 0 ? left_c : 1;
