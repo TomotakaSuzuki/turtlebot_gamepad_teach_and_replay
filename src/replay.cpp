@@ -25,6 +25,7 @@ Observation depth_values;
 NodeHandle *np;
 int sum_center = 0;
 
+bool mode = false;
 bool on = false;
 bool bag_read = false;
 
@@ -89,7 +90,7 @@ int main(int argc, char **argv)
 
 	Subscriber sub = n.subscribe("DepthSensor", 1, sensorCallback);
 	Subscriber sub_b = n.subscribe("buttons", 1, buttonCallback);
-	Publisher cmdvel = n.advertise<geometry_msgs::Twist>("cmd_vel", 1);
+	Publisher cmdvel = n.advertise<geometry_msgs::Twist>("cmd_vel_mux/input/teleop", 1);
 	Publisher pfoe_out = n.advertise<turtlebot_gamepad_training_replay::PFoEOutput>("pfoe_out", 100);
 
 	/* signal(SIGINT, on_shutdown); */
@@ -102,12 +103,17 @@ int main(int argc, char **argv)
 	Action act = {0.0,0.0};
 	while(ok()){
 		if(not on){
-			cout << "idle" << endl;
-			bag_read = false;
+            if(! mode){
+			    bag_read = false;
+                mode = true;
+                cout << "------------------" << endl;
+                cout << "System Ready." << endl;
+            }
 			spinOnce();
 			loop_rate.sleep();
 			continue;
 		}else if(not bag_read){
+            mode = false;
 			string bagfile;
 			n.getParam("/current_bag_file", bagfile);
 			readEpisodes(bagfile);
