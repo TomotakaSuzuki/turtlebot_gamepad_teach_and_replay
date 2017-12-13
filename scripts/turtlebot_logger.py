@@ -54,7 +54,7 @@ class Logger():
         e.angular_z = a.angular.z
 
         self._decision.publish(e)
-        self.bag.write('/evnet', e)
+        self.bag.write('/event', e)
 
     def run(self):
         rate = rospy.Rate(10)
