@@ -10,14 +10,14 @@ using namespace std;
 class Observation{
 public:
 	Observation();
-	Observation(int left_s,int left_c, int right_c, int right_s);
+	Observation(float left_s,float left_c, float right_c, float right_s);
 
-	void setValues(int left_s,int left_c, int right_c, int right_s);
+	void setValues(float left_s,float left_c, float right_c, float right_s);
 
-	int ls;
-	int lc;
-	int rc;
-	int rs;
+	float ls;
+	float lc;
+	float rc;
+	float rs;
 	double log_ls;
 	double log_lc;
 	double log_rc;
