@@ -1,5 +1,5 @@
 # turtlebot_gamepad_teach_and_replay
-PFoE(Particle Filter on Episode)をTurtleBot用に実装したもの  
+PFoE(Particle Filter on Episode)をTurtleBotに実装したもの  
 ## Requirements
 * TurtleBot2
 * Ubuntu
@@ -14,35 +14,26 @@ PFoE(Particle Filter on Episode)をTurtleBot用に実装したもの
 TurtleBotを動かすためのパッケージをインストール  
 以下はIndigoの場合
 ```
-sudo apt-get install ros-indigo-turtlebot*
+$ sudo apt-get install ros-indigo-turtlebot*
 ```
 catkinワークスペースの作成
 ```
-mkdir -p ~/catkin_ws/src
-cd ~/catkin_ws/src
-catkin_init_workspace
-cd ~/catkin_ws
-catkin_make
-```
-`~/.bashrc`内から以下を削除
-```
-source /opt/ros/indigo/setup.bash
-```
-`~/.bashrc`内に以下を追加
-```
-source ~/catkin_ws/devel/setup.bash
+$ mkdir -p ~/catkin_ws/src && cd ~/catkin_ws/src
+$ catkin_init_workspace
+$ cd ~/catkin_ws && catkin_make && source ~/catkin_ws/devel/setup.bash
 ```
 リポジトリのclone
 ```
-cd ~/catkin_wa/src
-git clone https://github.com/TomotakaSuzuki/turtlebot_gamepad_teach_and_replay.git
+$ cd ~/catkin_ws/src
+$ git clone https://github.com/TomotakaSuzuki/turtlebot_gamepad_teach_and_replay.git
+$ cd ~/catkin_ws && catkin_make
 ```
 ## Usage
 ノードをlaunch
 ```
-roslaunch turtlebot_bringup minimal.launch
-roslaunch turtlebot_bringup 3dsensor.launch
-roslaunch turtlebot_gamepad_training_replay training_replay.launch
+$ roslaunch turtlebot_bringup minimal.launch
+$ roslaunch turtlebot_bringup 3dsensor.launch
+$ roslaunch turtlebot_gamepad_training_replay training_replay.launch
 ```
 ### トレーニング
 ゲームパッドのRBを押すとトレーニング操作の受付状態となり、センサとモータの出力をeventというトピックに記録するようになります。ゲームパッドのXボタンを押しながら十字キーを操作するとロボットが動きます。記録を終了するときはゲームパッドのLBを軽く押して終了します。記録中のトピックは~/.ros/内にバグファイルとして記録されます。ファイル名はROSのパラメータとして/current_bag_fileから得ることができます。
