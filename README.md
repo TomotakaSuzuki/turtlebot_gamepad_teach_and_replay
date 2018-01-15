@@ -50,4 +50,4 @@ codes for gamepad control(original repository: [raspimouse_game_controller](http
 * Masahiro Kato  
 codes for teaching(original repository: [raspimouse_maze_manual](https://github.com/kato-masahiro/raspimouse_maze_manual))
 ## License
-This repository is licensed under the BSD-3-Clause, see [LICENSE].(https://github.com/TomotakaSuzuki/turtlebot_gamepad_teach_and_replay/blob/master/LICENSE)
+This repository is licensed under the BSD-3-Clause, see [LICENSE](https://github.com/TomotakaSuzuki/turtlebot_gamepad_teach_and_replay/blob/master/LICENSE).
