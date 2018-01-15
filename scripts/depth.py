@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+# Copyright 2017 TomotakaSuzuki
+# Released under the BSD License
+
 import rospy
 import cv2
 from std_msgs.msg import String

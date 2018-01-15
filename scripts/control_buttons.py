@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# Copyright 2017 Tomotaka Suzuki
+# Released under the BSD License.
 import rospy
 from sensor_msgs.msg import Joy
 from turtlebot_gamepad_training_replay.msg import ButtonValues

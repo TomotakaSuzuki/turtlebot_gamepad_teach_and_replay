@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# Copyright 2017 TomotakaSuzuki
+# Released under the BSD License.
+
 import rospy
 import numpy as np
 import cv2
@@ -12,7 +15,7 @@ class Depth_estimater(object):
     def __init__(self):
         self._bridge = CvBridge()
         self._dep_pub = rospy.Publisher('/DepthSensor', DepthSensorValues, queue_size=1)
-        self._depimg_sub = rospy.Subscriber('/camera/depth/image_raw', Image, self.depth_image_callback, queue_size=1)
+        self._depimg_sub = rospy.Subscriber('/camera/depth/image', Image, self.depth_image_callback, queue_size=1)
         
         self.depth_copy = np.zeros((480, 640)) #二次元配列を0で初期化
        

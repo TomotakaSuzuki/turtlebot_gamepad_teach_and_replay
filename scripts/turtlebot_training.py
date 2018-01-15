@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # Copyright 2017 Ryo Okazaki
 # Copyright 2017 Ryuichi Ueda
+# Copyright 2017 Tomotaka Suzuki
 # Released under the BSD License
 
 import rospy
