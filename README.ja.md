@@ -49,3 +49,5 @@ RaspberryPi MouseにPFoEを実装したプログラム(元のコードのリポ�
 ゲームパッドによるロボット操作プログラム(元のコードのリポジトリ: [raspimouse_game_controller](https://github.com/zaki0929/raspimouse_game_controller))
 * Masahiro Kato  
 イベントの出力コードの作成(元のコードのリポジトリ: [raspimouse_maze_manual](https://github.com/kato-masahiro/raspimouse_maze_manual))
+## License
+このリポジトリは、BSD-3-Clauseライセンス下です。[ライセンス](https://github.com/TomotakaSuzuki/turtlebot_gamepad_teach_and_replay/blob/master/LICENSE)を参照してください。
