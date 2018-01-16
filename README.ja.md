@@ -11,7 +11,7 @@ PFoE(Particle Filter on Episode)をTurtleBotに実装したもの
   * ROS Indigo(動作確認済み)
   * ROS Kinetic
 * Controller
-  * Logicoo Wireless Gamepad F710
+  * Logicool Wireless Gamepad F710
 ## Installation
 TurtleBotを動かすためのパッケージをインストール  
 以下はIndigoの場合
