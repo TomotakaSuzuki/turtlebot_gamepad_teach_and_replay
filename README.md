@@ -11,7 +11,7 @@ Implementing PFoE(Particle Filter on Episode) in TurtleBot.
   * ROS Indigo(Operation has been confirmed)
   * ROS Kinetic
 * Controller
-  * Logicoo Wireless Gamepad F710
+  * Logicool Wireless Gamepad F710
 ## Installation
 Install package to run TurtleBot.
 ```
