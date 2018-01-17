@@ -149,9 +149,11 @@ double ParticleFilter::likelihood(Observation *past, Observation *last)
 				past->log_rc - last->log_rc,
                 past->log_rm - last->log_rm,
 				past->log_rs - last->log_rs };
+    /* 
     for(int i=0;i<6;i++){
         cout << i  << ':' << diff[i] << endl;
     }
+    */
 	/*
 	double diff[4] = {	past->lf - last->lf,
 				past->ls - last->ls,
