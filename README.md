@@ -1,3 +1,4 @@
 # turtlebot_gamepad_teach_and_replay
-I'm still making it.
-Please don't clone.
+Sorry, no English version yet.  
+
+Japanese version -> [README.ja.md](https://github.com/TomotakaSuzuki/turtlebot_gamepad_teach_and_replay/blob/master/README.ja.md)

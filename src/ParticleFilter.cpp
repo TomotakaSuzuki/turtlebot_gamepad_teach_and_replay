@@ -143,10 +143,15 @@ Action ParticleFilter::sensorUpdate(Observation *obs, Action *act, Episodes *ep,
 
 double ParticleFilter::likelihood(Observation *past, Observation *last)
 {
-	double diff[4] = {	past->log_ls - last->log_ls,
+	double diff[6] = {	past->log_ls - last->log_ls,
+                past->log_lm - last->log_lm,
 				past->log_lc - last->log_lc,
 				past->log_rc - last->log_rc,
+                past->log_rm - last->log_rm,
 				past->log_rs - last->log_rs };
+    for(int i=0;i<6;i++){
+        cout << i  << ':' << diff[i] << endl;
+    }
 	/*
 	double diff[4] = {	past->lf - last->lf,
 				past->ls - last->ls,
@@ -176,9 +181,11 @@ double ParticleFilter::likelihood(Observation *past, Observation *last)
 
 double ParticleFilter::likelihood(Observation *past, Observation *last, Action *past_a, Action *last_a)
 {
-	double diff[4] = {	past->log_ls - last->log_ls,
+	double diff[6] = {	past->log_ls - last->log_ls,
+				past->log_lm - last->log_lm,
 				past->log_lc - last->log_lc,
 				past->log_rc - last->log_rc,
+				past->log_rm - last->log_rm,
 				past->log_rs - last->log_rs };
 
 	double ans = 1.0;
@@ -233,9 +240,9 @@ void ParticleFilter::resampling(vector<Particle> *ps)
 void ParticleFilter::normalize(void)
 {
 	double eta = 0.0;
-	for(auto &p : particles)
+	for(auto &p : particles) 
 		eta += p.weight;
-
+    
 	cout << "eta: " << eta << endl;
 	for(auto &p : particles)
 		p.weight /= eta;
