@@ -36,7 +36,7 @@ void buttonCallback(const turtlebot_gamepad_training_replay::ButtonValues::Const
 
 void sensorCallback(const turtlebot_gamepad_training_replay::DepthSensorValues::ConstPtr& msg)
 {
-	depth_values.setValues(msg->left_side,msg->left_center,msg->right_center,msg->right_side);
+	depth_values.setValues(msg->left_side, msg->left_middle, msg->left_center, msg->right_center, msg->right_middle, msg->right_side);
 	sum_center = msg->sum_center;
 }
 
@@ -67,7 +67,7 @@ void readEpisodes(string file)
 	for(auto i : view){
 	        auto s = i.instantiate<turtlebot_gamepad_training_replay::Event>();
 
-		Observation obs(s->left_side,s->left_center,s->right_center,s->right_side);
+		Observation obs(s->left_side, s->left_middle, s->left_center, s->right_center, s->right_middle, s->right_side);
 		Action a = {s->linear_x,s->angular_z};
 		Event e(obs,a,0.0);
 		e.time = i.getTime();
@@ -134,8 +134,10 @@ int main(int argc, char **argv)
 		out.angular_z = act.angular_z;
 
 		out.left_side = depth_values.ls;
+        out.left_middle = depth_values.lm;
 		out.left_center = depth_values.lc;
 		out.right_center = depth_values.rc;
+        out.right_middle = depth_values.rm;
 		out.right_side = depth_values.rs;
 
 		cmdvel.publish(msg);

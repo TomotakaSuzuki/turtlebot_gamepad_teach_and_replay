@@ -52,8 +52,10 @@ class Logger():
         e = Event()
 
         e.right_side = s.right_side
+        e.right_middle = s.right_middle
         e.right_center = s.right_center
         e.left_center = s.left_center
+        e.left_middle = s.left_middle
         e.left_side = s.left_side
         e.linear_x = a.linear.x
         e.angular_z = a.angular.z

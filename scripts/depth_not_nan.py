@@ -12,7 +12,7 @@ class Depth_estimater(object):
     def __init__(self):
         self._bridge = CvBridge()
         self._dep_pub = rospy.Publisher('/DepthSensor', DepthSensorValues, queue_size=1)
-        self._depimg_sub = rospy.Subscriber('/camera/depth/image_raw', Image, self.depth_image_callback, queue_size=1)
+        self._depimg_sub = rospy.Subscriber('/camera/depth/image', Image, self.depth_image_callback, queue_size=1)
         
         self.depth_copy = np.zeros((480, 640)) #二次元配列を0で初期化
        
@@ -40,11 +40,13 @@ class Depth_estimater(object):
         #print(depth_image)
         d = DepthSensorValues()
         d.right_side = depth_image[120][560]
+        d.right_middle = depth_image[120][480]
         d.right_center = depth_image[120][400]
         d.left_center = depth_image[120][240]
+        d.left_middle = depth_image[120][160]
         d.left_side = depth_image[120][80]
         d.sum_center = d.left_center + d.right_center
-        d.sum_all = d.sum_center + d.left_side + d.right_side
+        d.sum_all = d.sum_center + d.left_side + d.right_side + d.left_middle + d.right_middle
         self._dep_pub.publish(d)
    
         self.depth_copy = depth_image
