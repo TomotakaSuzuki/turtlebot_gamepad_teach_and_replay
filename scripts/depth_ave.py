@@ -42,10 +42,10 @@ class Depth_estimater(object):
         depth_image = depth_image.reshape(480, 640) #二次元配列に戻す
         #print(depth_image)
         d = DepthSensorValues()
-        d.right_side = (depth_image[120][556] + depth_image[120][557] + depth_image[120][558] + depth_image[120][559] + depth_image[120][560] + depth_image[120][561] + depth_image[120][562] + depth_image[120][563] + depth_image[120][564] + depth_image[120][565]) / 10 
-        d.right_center = (depth_image[120][396] + depth_image[120][397] + depth_image[120][398] + depth_image[120][399] + depth_image[120][400] + depth_image[120][401] + depth_image[120][402] + depth_image[120][403] + depth_image[120][404] + depth_image[120][405]) / 10 
-        d.left_center = (depth_image[120][236] + depth_image[120][237] + depth_image[120][238] + depth_image[120][239] + depth_image[120][240] + depth_image[120][241] + depth_image[120][242] + depth_image[120][243] + depth_image[120][244] + depth_image[120][245]) / 10 
-        d.left_side = (depth_image[120][76] + depth_image[120][77] + depth_image[120][78] + depth_image[120][79] + depth_image[120][80] + depth_image[120][81] + depth_image[120][82] + depth_image[120][83] + depth_image[120][84] + depth_image[120][85]) / 10
+        d.right_side = np.average([depth_image[240][i] for i in range(556, 566)])
+        d.right_center = np.average([depth_image[240][i] for i in range(396, 406)])
+        d.left_center = np.average([depth_image[240][i] for i in range(236, 246)])
+        d.left_side = np.average([depth_image[240][i] for i in range(76, 86)])
         d.sum_center = d.left_center + d.right_center
         d.sum_all = d.sum_center + d.left_side + d.right_side
         self._dep_pub.publish(d)
